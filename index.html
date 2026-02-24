@@ -390,6 +390,29 @@ main{margin-top:var(--nav-height);min-height:100vh}
 
 /* Audio controls inline */
 
+/* ===== SEQUENCE MODALS ===== */
+.sequence-overlay{display:none;position:fixed;inset:0;background:var(--overlay);z-index:2000;animation:fadeIn .3s ease-out}
+.sequence-overlay.open{display:flex;align-items:center;justify-content:center}
+.sequence-modal{background:var(--surface);border-radius:var(--radius-lg);max-width:600px;width:90%;max-height:90vh;overflow-auto;box-shadow:var(--shadow-xl);animation:slideUp .4s cubic-bezier(.4,0,.2,1);border:1px solid var(--border)}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes slideUp{from{opacity:0;transform:translateY(40px)}to{opacity:1;transform:translateY(0)}}
+.sequence-modal-header{position:sticky;top:0;background:var(--primary);color:#fff;padding:20px;display:flex;justify-content:space-between;align-items:center;border-bottom:2px solid rgba(255,255,255,.1);z-index:1}
+.sequence-modal-header h2{font-size:1.2rem;font-weight:700;margin:0}
+.sequence-modal-header button{background:rgba(255,255,255,.2);border:none;color:#fff;cursor:pointer;width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.4rem;transition:background .2s}
+.sequence-modal-header button:hover{background:rgba(255,255,255,.3)}
+.sequence-modal-content{padding:20px}
+.sequence-step{display:flex;gap:16px;margin-bottom:24px;padding:16px;background:var(--surface-alt);border-radius:var(--radius-md);border-left:4px solid var(--primary);position:relative;transition:all .2s}
+.sequence-step:hover{transform:translateX(4px);box-shadow:var(--shadow-md)}
+.sequence-step-number{display:flex;align-items:center;justify-content:center;width:40px;height:40px;min-width:40px;background:var(--primary);color:#fff;border-radius:50%;font-weight:700;font-size:1.1rem}
+.sequence-step-info h4{font-size:.95rem;font-weight:700;margin:0 0 4px 0}
+.sequence-step-duration{font-size:.8rem;color:var(--primary);font-weight:600;margin-bottom:4px}
+.sequence-step-location{font-size:.85rem;color:var(--text-secondary);display:flex;align-items:center;gap:4px}
+.sequence-step-travel{font-size:.8rem;color:var(--text-muted);margin-top:6px;padding-top:6px;border-top:1px solid var(--border);font-style:italic}
+.sequence-btn{display:inline-flex;align-items:center;gap:6px;padding:6px 12px;background:rgba(var(--primary),.1);border:2px solid var(--primary);border-radius:var(--radius-full);color:var(--primary);font-size:.8rem;font-weight:600;cursor:pointer;transition:all .2s;margin-left:8px;vertical-align:middle}
+.sequence-btn:hover{background:var(--primary);color:#fff;box-shadow:var(--shadow-md)}
+.modal-tips{background:#fef3c7;border-left:4px solid #f59e0b;padding:12px 14px;border-radius:var(--radius-md);margin-top:12px;font-size:.85rem;color:#92400e}
+[data-theme="dark"] .modal-tips{background:#78350f;color:#fde68a}
+
 </style>
 </head>
 <body>
@@ -1692,7 +1715,7 @@ main{margin-top:var(--nav-height);min-height:100vh}
       <div class="timeline-item">
         <div class="timeline-dot"></div>
         <div class="timeline-time">~9:30/10:30 AM – 12:30/1:00 PM</div>
-        <div class="timeline-title">Hawai'i Volcanoes NP – Focused Visit 🌋 <span class="photo-spot">📸 Photo Spot</span> <span style="background:#f59e0b;color:#fff;font-size:.7rem;padding:2px 6px;border-radius:4px;font-weight:600">🟡 MODERATE</span></div>
+        <div class="timeline-title">Hawai'i Volcanoes NP – Focused Visit 🌋 <span class="photo-spot">📸 Photo Spot</span> <span style="background:#f59e0b;color:#fff;font-size:.7rem;padding:2px 6px;border-radius:4px;font-weight:600">🟡 MODERATE</span><button class="sequence-btn" onclick="openSequenceModal('volcano')">📋 Sequence</button></div>
         <div class="timeline-desc">
           <p><strong>Plan for 2.5–3 hours in park.</strong> Arrival depends on if you did Akaka Falls. Focus on greatest hits, not exhaustive exploration.</p>
           
@@ -1764,7 +1787,7 @@ main{margin-top:var(--nav-height);min-height:100vh}
       <div class="timeline-item">
         <div class="timeline-dot"></div>
         <div class="timeline-time">2:00 – 3:15 PM</div>
-        <div class="timeline-title">⭐ Mauna Kea Visitor Information Station (VIS) <span class="photo-spot">📸 Photo Spot</span> <span style="background:#10b981;color:#fff;font-size:.7rem;padding:2px 6px;border-radius:4px;font-weight:600">🟢 EASY</span></div>
+        <div class="timeline-title">⭐ Mauna Kea Visitor Information Station (VIS) <span class="photo-spot">📸 Photo Spot</span> <span style="background:#10b981;color:#fff;font-size:.7rem;padding:2px 6px;border-radius:4px;font-weight:600">🟢 EASY</span><button class="sequence-btn" onclick="openSequenceModal('maunakea')">📋 Sequence</button></div>
         <div class="timeline-desc">
           <p>One of the trip's most unique experiences! ~1–1.25 hours at 9,200 ft elevation.</p>
           
@@ -2401,6 +2424,137 @@ main{margin-top:var(--nav-height);min-height:100vh}
       <animate attributeName="d" dur="8s" repeatCount="indefinite" values="M0,50 C240,90 480,10 720,50 C960,90 1200,10 1440,50 L1440,100 L0,100Z;M0,60 C240,20 480,80 720,40 C960,10 1200,80 1440,40 L1440,100 L0,100Z;M0,50 C240,90 480,10 720,50 C960,90 1200,10 1440,50 L1440,100 L0,100Z"/>
     </path>
   </svg>
+</div>
+
+<!-- ===== SEQUENCE MODALS ===== -->
+<!-- Volcano NP Modal -->
+<div id="volcano-modal" class="sequence-overlay">
+  <div class="sequence-modal">
+    <div class="sequence-modal-header">
+      <h2>🌋 Volcano NP – Best Sequence</h2>
+      <button onclick="closeSequenceModal()">✕</button>
+    </div>
+    <div class="sequence-modal-content">
+      <div class="sequence-step">
+        <div class="sequence-step-number">1</div>
+        <div class="sequence-step-info">
+          <h4>🪨 Kīlauea Visitor Center & Entry</h4>
+          <div class="sequence-step-duration">10-15 min</div>
+          <div class="sequence-step-location">📍 Park entrance – south side of Crater Rim Road</div>
+          <div class="sequence-step-travel">Park, brief check-in, get ranger updates on conditions & open areas</div>
+        </div>
+      </div>
+      
+      <div class="sequence-step">
+        <div class="sequence-step-number">2</div>
+        <div class="sequence-step-info">
+          <h4>🌳 Thurston Lava Tube (Nāhuku)</h4>
+          <div class="sequence-step-duration">20-30 min</div>
+          <div class="sequence-step-location">📍 Near park entrance, on south side of Crater Rim Road</div>
+          <div class="sequence-step-travel"><strong>Easiest walk first.</strong> 1.4 mi round-trip through fern forest in 500-year-old lava tunnel. Warm up legs, then explore crater views</div>
+        </div>
+      </div>
+      
+      <div class="sequence-step">
+        <div class="sequence-step-number">3</div>
+        <div class="sequence-step-info">
+          <h4>🔥 Crater Rim Overlooks & Viewpoints</h4>
+          <div class="sequence-step-duration">45-60 min</div>
+          <div class="sequence-step-location">📍 Volcano House overlook, Steam Bluff, Crater Rim Trail (if accessible)</div>
+          <div class="sequence-step-travel"><strong>Main event.</strong> Multiple viewpoints along rim offer different perspectives. Steaming vents overlook shows geothermal activity. Take photos from various angles—dramatic crater = stunning visuals</div>
+        </div>
+      </div>
+      
+      <div class="sequence-step">
+        <div class="sequence-step-number">4</div>
+        <div class="sequence-step-info">
+          <h4>🌄 Steaming Vents & Volcanic Landscape</h4>
+          <div class="sequence-step-duration">15-20 min</div>
+          <div class="sequence-step-location">📍 Crater Rim area, multiple pullouts</div>
+          <div class="sequence-step-travel">Walk along steam vents, feel geothermal heat, photograph otherworldly landscape. If Crater Rim Trail is accessible, short segment = best hiking</div>
+        </div>
+      </div>
+      
+      <div class="sequence-step">
+        <div class="sequence-step-number">5</div>
+        <div class="sequence-step-info">
+          <h4>🛣️ Chain of Craters Road (Optional)</h4>
+          <div class="sequence-step-duration">30-45 min</div>
+          <div class="sequence-step-location">📍 Drive partially down Chain of Craters Road, turn back as needed</div>
+          <div class="sequence-step-travel"><strong>Only if time permits.</strong> Dramatic hairpin turns, coastal lava views, fewer crowds. Skip if on tight schedule for Mauna Kea</div>
+        </div>
+      </div>
+      
+      <div class="modal-tips">
+        <strong>💡 Pro Tips:</strong> Start at entry (park ranger), hit Thurston (easy warm-up), then crater views (main event), then steaming vents (dramatic). Weather permitting, it's a powerful sequence that builds from easy to epic. Total time: 2.5–3 hours
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Mount Kea VIS Modal -->
+<div id="maunakea-modal" class="sequence-overlay">
+  <div class="sequence-modal">
+    <div class="sequence-modal-header">
+      <h2>⭐ Mauna Kea VIS – What to Do</h2>
+      <button onclick="closeSequenceModal()">✕</button>
+    </div>
+    <div class="sequence-modal-content">
+      <div class="sequence-step">
+        <div class="sequence-step-number">1</div>
+        <div class="sequence-step-info">
+          <h4>🚗 Park & Acclimatize</h4>
+          <div class="sequence-step-duration">5-10 min</div>
+          <div class="sequence-step-location">📍 Parking lot – Mauna Kea Visitor Information Station (9,200 ft)</div>
+          <div class="sequence-step-travel">Park, step out, <strong>MOVE SLOWLY.</strong> You're at 9,200 ft—thinner air means slow movements prevent dizziness. Hydrate immediately. Breathe deeply for 5-10 min before exploring</div>
+        </div>
+      </div>
+      
+      <div class="sequence-step">
+        <div class="sequence-step-number">2</div>
+        <div class="sequence-step-info">
+          <h4>🏛️ Visitor Center Exhibits & Facilities</h4>
+          <div class="sequence-step-duration">15-20 min</div>
+          <div class="sequence-step-location">📍 Inside VIS building – restrooms, gift shop, exhibits</div>
+          <div class="sequence-step-travel">Browse exhibits about Mauna Kea's astronomy & Hawaiian cultural significance. Use restrooms (no facilities above VIS). Rest indoors, hydrate, let body adjust to altitude</div>
+        </div>
+      </div>
+      
+      <div class="sequence-step">
+        <div class="sequence-step-number">3</div>
+        <div class="sequence-step-info">
+          <h4>🔭 High-Altitude Viewing Areas</h4>
+          <div class="sequence-step-duration">20-25 min</div>
+          <div class="sequence-step-location">📍 Outdoor viewing platforms & observation areas near VIS</div>
+          <div class="sequence-step-travel"><strong>MAIN EVENT.</strong> Step outside, eyes adjust to intense blue sky & sharp light at 9,200 ft. See volcanic peaks, clouds below you, distant islands. Take couple photos with elevation drop-off—unforgettable honeymoon moment</div>
+        </div>
+      </div>
+      
+      <div class="sequence-step">
+        <div class="sequence-step-number">4</div>
+        <div class="sequence-step-info">
+          <h4>🏔️ Summit Observation Area (if accessible)</h4>
+          <div class="sequence-step-duration">10-15 min</div>
+          <div class="sequence-step-location">📍 Upper observation deck/viewing platform above VIS</div>
+          <div class="sequence-step-travel">If no altitude warning signs, walk to highest accessible viewing area. Thinner air, more dramatic peaks. <strong>Move slowly, limit exertion.</strong> If feeling dizzy, descend immediately</div>
+        </div>
+      </div>
+      
+      <div class="sequence-step">
+        <div class="sequence-step-number">5</div>
+        <div class="sequence-step-info">
+          <h4>🌟 Stargazing Setup (Evening/Sunset)</h4>
+          <div class="sequence-step-duration">15-30 min</div>
+          <div class="sequence-step-location">📍 Dark viewing area – away from parking lot lights</div>
+          <div class="sequence-step-travel"><strong>If visiting sunset (later in afternoon) or returning evening:</strong> Set up for stargazing. Minimum light pollution. Thinner atmosphere = sharper star visibility. Jupiter, Saturn, Milky Way visible depending on season. Bring red headlamp to preserve night vision</div>
+        </div>
+      </div>
+      
+      <div class="modal-tips">
+        <strong>💡 Pro Tips:</strong> Arrive parked & acclimatized → exhibits (rest & hydrate) → viewing areas (main photos) → summit if energy allows → stargazing if evening. Total time: 1–1.25 hours. <strong>DO NOT</strong> go above VIS or attempt summit road—altitude risk & permits required. Descend immediately if headache/severe dizziness
+      </div>
+    </div>
+  </div>
 </div>
 
 <!-- ===== JAVASCRIPT ===== -->
@@ -3142,6 +3296,41 @@ if ('serviceWorker' in navigator) {
   const blob = new Blob([swCode], { type: 'application/javascript' });
   navigator.serviceWorker.register(URL.createObjectURL(blob)).catch(() => {});
 }
+
+/* ===== SEQUENCE MODALS ===== */
+function openSequenceModal(location) {
+  const modalId = location === 'volcano' ? 'volcano-modal' : 'maunakea-modal';
+  const modal = document.getElementById(modalId);
+  if (modal) {
+    modal.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+}
+
+function closeSequenceModal() {
+  const modals = document.querySelectorAll('.sequence-overlay');
+  modals.forEach(modal => modal.classList.remove('open'));
+  document.body.style.overflow = 'auto';
+}
+
+// Close modal when clicking overlay background
+document.addEventListener('DOMContentLoaded', () => {
+  const modals = document.querySelectorAll('.sequence-overlay');
+  modals.forEach(modal => {
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) {
+        closeSequenceModal();
+      }
+    });
+  });
+});
+
+// Close modal with Escape key
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') {
+    closeSequenceModal();
+  }
+});
 
 /* ===== INITIAL SETUP ===== */
 updateActiveDay();
